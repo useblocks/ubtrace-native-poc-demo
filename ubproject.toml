@@ -1,0 +1,36 @@
+"$schema" = "https://ubcode.useblocks.com/ubproject.schema.json"
+
+[scripts]
+# Prepare step: demonstrates a network-dependent fetch (tolerant of failure)
+# plus generation of a large binary asset that must NOT be committed to the
+# repo (KB-scale push; the asset is produced fresh on every build).
+"ubtrace-prepare" = "curl -fsSLo fetched-dep.json https://raw.githubusercontent.com/useblocks/sphinx-needs/master/README.rst || true && mkdir -p _static && head -c 12000000 /dev/urandom > _static/big.bin"
+# Build with ubCode:
+build = "ubc build index ."
+needs = "ubc build needs -o needs.json"
+report = "ubc report needs_overview.html.j2"
+# Build with Sphinx + Sphinx-Needs (requires https://docs.astral.sh/uv).
+# sphinx-needs >= 7 for the dict `[needs.links]` / `[needs.fields]` config; no
+# upper bound so it tracks releases (verified against sphinx-needs 8.x).
+sphinx = "uv run --no-project --with 'sphinx,sphinx-needs>=7' sphinx-build -W -b html . _build"
+rm_build = "rm -rf _build"
+"sphinx:clean" = { chain = ["rm_build", "sphinx"] }
+
+[[needs.types]]
+directive = "req"
+title = "Requirement"
+prefix = "REQ"
+
+[[needs.types]]
+directive = "test"
+title = "Test"
+prefix = "Test"
+
+[needs.links.tests]
+outgoing = "Tests"
+incoming = "Tested by"
+
+[needs.fields.custom_option]
+description = "An example custom field"
+type = "string"
+default = ""
