@@ -19,3 +19,4 @@ Link to :ref:`example-project`.
     This is an example test.
 
 Big asset: :download:`big <_static/big.bin>`
+Some **bold** text. And some *italic*.
