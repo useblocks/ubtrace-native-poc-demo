@@ -14,7 +14,7 @@ Link to :ref:`example-project`.
 .. test:: An example test
     :id: TEST123
     :tests: REQ123
-    :custom_option: abc
+    :custom_option: def
 
     This is an example test.
 
