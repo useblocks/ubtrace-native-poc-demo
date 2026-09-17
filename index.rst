@@ -19,3 +19,10 @@ Link to :ref:`example-project`.
     This is an example test.
 
 Big asset: :download:`big <_static/big.bin>`
+
+.. test:: An example test
+    :id: TEST124
+    :tests: REQ123
+    :custom_option: abc
+
+    This is an example test.
